@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using PlannerApp.Shared.Services;
+using Blazored.LocalStorage;
 
 namespace PlannerApp.Client {
     public class Program {
@@ -17,6 +18,7 @@ namespace PlannerApp.Client {
             builder.Services.AddScoped<AuthenticationService>(s => {
                 return new AuthenticationService(URL);
             });
+            builder.Services.AddBlazoredLocalStorage();
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
