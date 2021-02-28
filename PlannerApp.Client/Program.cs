@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PlannerApp.Shared.Services;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace PlannerApp.Client {
     public class Program {
@@ -18,10 +19,13 @@ namespace PlannerApp.Client {
             builder.Services.AddScoped<AuthenticationService>(s => {
                 return new AuthenticationService(URL);
             });
+            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddBlazoredLocalStorage();
-            builder.RootComponents.Add<App>("#app");
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
+            builder.Services.AddScoped<AuthenticationStateProvider, LocalAuthenticationStateProvider>();
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.RootComponents.Add<App>("#app");
 
             await builder.Build().RunAsync();
         }
