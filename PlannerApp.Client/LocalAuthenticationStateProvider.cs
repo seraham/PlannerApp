@@ -15,6 +15,10 @@ namespace PlannerApp.Client {
             _storageService = storageService;
         }
         
+        /// <summary>
+        /// Retrieve user info from local memory
+        /// </summary>
+        /// <returns></returns>
         public async override Task<AuthenticationState> GetAuthenticationStateAsync() {
             if (await _storageService.ContainKeyAsync("User")) {
                 var userInfo = await _storageService.GetItemAsync<LocalUserInfo>("User");
@@ -29,8 +33,11 @@ namespace PlannerApp.Client {
 
                 var identity = new ClaimsIdentity(claims, "BearerToken");
                 var user = new ClaimsPrincipal(identity);
+                var state =  new AuthenticationState(user);
 
-                return new AuthenticationState(user);
+                NotifyAuthenticationStateChanged(Task.FromResult(state));
+                return state;
+
             }
             return new AuthenticationState(new ClaimsPrincipal());
         }

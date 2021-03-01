@@ -51,6 +51,10 @@
     string message = string.Empty;
     Models.AlertMessageType messageType = Models.AlertMessageType.Success;
 
+    /// <summary>
+    /// Create a new user
+    /// </summary>
+    /// <returns></returns>
     public async Task RegisterUser() {
         isBusy = true;
         var result = await authService.RegisterUserAsync(model);
@@ -64,6 +68,9 @@
         isBusy = false;
     }
 
+    /// <summary>
+    /// Login button functionality
+    /// </summary>
     void GoToLogin() {
         navigationManager.NavigateTo("/auth/login");
     }

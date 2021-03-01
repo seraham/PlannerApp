@@ -5,6 +5,7 @@
 @inject AuthenticationService authService
 @inject NavigationManager navigationManager
 @inject ILocalStorageService storageService
+@inject AuthenticationStateProvider authenticationStateProvider
 
 <div class="row">
     <div class="col-12">
@@ -49,13 +50,14 @@
 
     Dictionary<string, string> userInfo = new Dictionary<string, string>();
 
+    /// <summary>
+    /// Authenticate user and redirect to homepage
+    /// </summary>
+    /// <returns></returns>
     public async Task LoginUser() {
         isBusy = true;
         var result = await authService.LoginUserAsync(model);
         if (result.IsSuccess) {
-            message = "Welcome to PlannerApp";
-            messageType = Models.AlertMessageType.Success;
-
             var userInfo = new PlannerApp.Client.Models.LocalUserInfo() {
                 AccessToken = result.Message,
                 Email = result.UserInfo["Email"],
@@ -65,6 +67,9 @@
             };
 
             await storageService.SetItemAsync("User", userInfo);
+            await authenticationStateProvider.GetAuthenticationStateAsync();
+
+            navigationManager.NavigateTo("/");
         } else {
             message = result.Message;
             messageType = Models.AlertMessageType.Error;
@@ -72,6 +77,9 @@
         isBusy = false;
     }
 
+    /// <summary>
+    /// Registration button functionality
+    /// </summary>
     void GoToRegister() {
         navigationManager.NavigateTo("/auth/register");
     }
