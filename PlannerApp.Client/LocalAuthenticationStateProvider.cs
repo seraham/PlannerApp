@@ -41,5 +41,14 @@ namespace PlannerApp.Client {
             }
             return new AuthenticationState(new ClaimsPrincipal());
         }
+
+        /// <summary>
+        /// Remove user info from local memory
+        /// </summary>
+        /// <returns></returns>
+        public async Task LogoutAsync() {
+            await _storageService.RemoveItemAsync("User");
+            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));
+        }
     }
 }
