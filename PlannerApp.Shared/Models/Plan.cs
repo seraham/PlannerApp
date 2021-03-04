@@ -1,4 +1,4 @@
-﻿namespace PlannerApp.Client.Models {
+﻿namespace PlannerApp.Shared.Models {
     public class Plan {
         public string Id { get; set; }
         public string Title { get; set; }

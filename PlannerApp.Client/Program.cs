@@ -19,7 +19,9 @@ namespace PlannerApp.Client {
             builder.Services.AddScoped<AuthenticationService>(s => {
                 return new AuthenticationService(URL);
             });
-            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<PlansService>(s => {
+                return new PlansService(URL);
+            });
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
