@@ -72,8 +72,9 @@
         var userState = authenticationState.Result;
         plansService.AccessToken = userState.User.FindFirst("AccessToken").Value;
 
-        if (PageNumber == null)
+        if (PageNumber == null) {
             PageNumber = 1;
+        }
 
         PlansCollectionPagingResponse result;
 
